@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Snackbar, IconButton, SnackbarContent } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import axios from 'axios';
+import emailjs from '@emailjs/browser';
 import isEmail from 'validator/lib/isEmail';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -26,6 +26,10 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 import { socialsData } from '../../data/socialsData';
 import { contactsData } from '../../data/contactsData';
 import './Contacts.css';
+
+const serviceId = 'service_5w631ye';
+const templateId = 'template_y4v4ap8';
+const publicKey = 'lxzct2WXNa72kG1b7'
 
 function Contacts() {
     const [open, setOpen] = useState(false);
@@ -135,21 +139,26 @@ function Contacts() {
         if (name && email && message) {
             if (isEmail(email)) {
                 const responseData = {
-                    name: name,
-                    email: email,
+                    from_name: name,
+                    from_email: email,
+                    to_name: 'Ozodbek',
                     message: message,
                 };
 
-                axios.post(contactsData.sheetAPI, responseData).then((res) => {
-                    console.log('success');
-                    setSuccess(true);
-                    setErrMsg('');
-
-                    setName('');
-                    setEmail('');
-                    setMessage('');
-                    setOpen(false);
-                });
+                emailjs.send(serviceId, templateId, responseData, publicKey)
+                    .then(res => {
+                        console.log('Email sent successfully', res)
+                        setName('')
+                        setEmail('')
+                        setMessage('')
+                        setSuccess(true)
+                    }).catch(err => {
+                        console.log('Email didn\'t sent', err)
+                        setName('')
+                        setEmail('')
+                        setMessage('')
+                        setSuccess(false)
+                    })
             } else {
                 setErrMsg('Invalid email');
                 setOpen(true);
@@ -303,14 +312,6 @@ function Contacts() {
                                 {contactsData.phone}
                             </p>
                         </a>
-                        <div className='personal-details'>
-                            <div className={classes.detailsIcon}>
-                                <HiOutlineLocationMarker />
-                            </div>
-                            <p style={{ color: theme.tertiary }}>
-                                {contactsData.address}
-                            </p>
-                        </div>
 
                         <div className='socialmedia-icons'>
                             {socialsData.twitter && (

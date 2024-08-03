@@ -17,11 +17,6 @@ export const servicesData = [
         title: 'Content Writing',
         icon: <BiPencil /> 
     },
-    {
-        id: 3,
-        title: 'Email Marketing',
-        icon: <AiOutlineMail />
-    },
     // {
     //     id: 4,
     //     title: 'Internet Research',
@@ -35,14 +30,14 @@ export const servicesData = [
 
     {
         id: 6,
-        title: 'Web Design',
+        title: 'Web Development',
         icon: <BsCodeSlash />
     },
-    {
-        id: 7,
-        title: 'Photography',
-        icon: <FaCameraRetro />
-    },
+    // {
+    //     id: 7,
+    //     title: 'Photography',
+    //     icon: <FaCameraRetro />
+    // },
     // {
     //     id: 8,
     //     title: 'Pinterest Virtual Assistant',
